@@ -2,12 +2,12 @@ import React, { useState } from "react";
 import Cookies from "js-cookie"; // Import js-cookie
 import "./Login.css";
 
-const Login = ({ setIsLoggedIn, setUsername, setUserId, userId }) => {
+const Login = ({ setIsLoggedIn, setUsername, setUserId, userId, onCancel }) => {
   const [isRegistering, setIsRegistering] = useState(false);
   const [username, setUsernameInput] = useState("");
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
-  const apiUrl = import.meta.env.VITE_API_URL;
+  const apiUrl = import.meta.env.VITE_TREE_API_URL;
 
   // Handle login logic
   const handleLogin = async () => {
@@ -21,16 +21,11 @@ const Login = ({ setIsLoggedIn, setUsername, setUserId, userId }) => {
 
       const data = await response.json();
       if (response.ok) {
-        // Store JWT token in a cookie
-        console.log(data);
         Cookies.set("token", data.token, { expires: 7, secure: false });
-
-        // Store additional user data in cookies if necessary
         Cookies.set("username", username, { expires: 7, secure: false });
         Cookies.set("userId", data.userId, { expires: 7, secure: false });
         Cookies.set("loggedIn", true, { expires: 7, secure: false });
 
-        // Update state in parent component
         setUsername(username);
         setUserId(data.userId);
         setIsLoggedIn(true);
@@ -109,6 +104,9 @@ const Login = ({ setIsLoggedIn, setUsername, setUserId, userId }) => {
           {isRegistering ? "Login" : "Register"}
         </button>
       </p>
+      <button className="go-back-btn" onClick={onCancel}>
+        ← Go Back
+      </button>
     </div>
   );
 };

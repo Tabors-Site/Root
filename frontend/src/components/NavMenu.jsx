@@ -1,18 +1,16 @@
 import React from "react";
 
-const NavMenu = ({ username }) => {
-  // This comes from your Vite env (set in .env file)
-  const baseDomain = import.meta.env.VITE_BASE_DOMAIN; // e.g. "tabors.site"
-
-  const menuItems = [
-    { label: "Tree", url: `http://tree.${baseDomain}` },
-    { label: "Music", url: `http://music.${baseDomain}` },
-    { label: "Chat", url: `http://chat.${baseDomain}` },
-  ];
+const NavMenu = ({ username, isLoggedIn, onLogout }) => {
+  const baseDomain = import.meta.env.VITE_ROOT_DOMAIN;
+  const treeDomain = import.meta.env.VITE_TREE_FRONTEND;
+  const menuItems = [{ label: "Tree", url: `${treeDomain}` }];
 
   return (
     <div className="navmenu-container">
-      <h1>Welcome, {username} 👋</h1>
+      <h1>
+        {isLoggedIn ? `Welcome, ${username} 👋` : "Sign In For Full Access"}
+      </h1>
+
       <p>Select a section:</p>
       <ul className="navmenu-list">
         {menuItems.map((item) => (
@@ -23,6 +21,11 @@ const NavMenu = ({ username }) => {
           </li>
         ))}
       </ul>
+      {isLoggedIn && (
+        <button onClick={onLogout} style={{ marginLeft: "1rem" }}>
+          Logout
+        </button>
+      )}
     </div>
   );
 };
