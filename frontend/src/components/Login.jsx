@@ -1,11 +1,13 @@
 import React, { useState } from "react";
-import Cookies from "js-cookie"; // Import js-cookie
+import Cookies from "js-cookie";
 import "./Login.css";
 
 const Login = ({ setIsLoggedIn, setUsername, setUserId, userId, onCancel }) => {
   const [isRegistering, setIsRegistering] = useState(false);
   const [username, setUsernameInput] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState(""); // NEW
+  const [registrationKey, setRegistrationKey] = useState("");
   const [message, setMessage] = useState("");
   const apiUrl = import.meta.env.VITE_TREE_API_URL;
 
@@ -40,11 +42,17 @@ const Login = ({ setIsLoggedIn, setUsername, setUserId, userId, onCancel }) => {
 
   // Handle register logic
   const handleRegister = async () => {
+    // Check if passwords match before sending request
+    if (password !== confirmPassword) {
+      setMessage("Passwords do not match.");
+      return;
+    }
+
     try {
       const response = await fetch(`${apiUrl}/register`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ username, password }),
+        body: JSON.stringify({ username, password, registrationKey }),
         credentials: "include",
       });
 
@@ -52,6 +60,9 @@ const Login = ({ setIsLoggedIn, setUsername, setUserId, userId, onCancel }) => {
       if (response.ok) {
         setMessage("Registration successful! You can now log in.");
         setIsRegistering(false);
+        setRegistrationKey("");
+        setPassword("");
+        setConfirmPassword("");
       } else {
         setMessage(data.message || "Registration failed.");
       }
@@ -93,14 +104,41 @@ const Login = ({ setIsLoggedIn, setUsername, setUserId, userId, onCancel }) => {
             onChange={(e) => setPassword(e.target.value)}
           />
         </div>
+
+        {isRegistering && (
+          <>
+            <div>
+              <input
+                type="password"
+                placeholder="Confirm Password"
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+              />
+            </div>
+            <div>
+              <input
+                type="text"
+                placeholder="Registration Key"
+                value={registrationKey}
+                onChange={(e) => setRegistrationKey(e.target.value)}
+              />
+            </div>
+          </>
+        )}
+
         <button type="submit">{isRegistering ? "Register" : "Login"}</button>
       </form>
-      <p>{message}</p>
+      <p className="error-message">{message}</p>
       <p>
         {isRegistering
           ? "Already have an account?"
           : "Don't have an account yet?"}
-        <button onClick={() => setIsRegistering(!isRegistering)}>
+        <button
+          onClick={() => {
+            setIsRegistering(!isRegistering);
+            setMessage("");
+          }}
+        >
           {isRegistering ? "Login" : "Register"}
         </button>
       </p>
