@@ -1,33 +1,48 @@
-# Root Goal-Based Creating System - Treeffiency
+# 🌳 Root Goal-Based Creating System – Treeffiency
 
-![Project Logo](https://github.com/user-attachments/assets/16816540-88a3-40af-9072-11bc94f0dc5a)
+## Overview
 
-## Introduction
+This repository is the **Root** of _Treeffiency_.  
+It serves as the **main navigation hub** and **entry point** to all other project modules.
 
-Welcome to the *Treeffiency*! This project is designed to help you build, track, and refine your goals based on root principles. With the ability to track data, write notes, reflect, analyze performance, and autogenerate new plans/further steps, this system empowers you to optimize your goals and reach higher levels of success.
+- All functionality **requires Root**, and it is the foundation for the system.
+- Most modules also **require Tree**, which powers the structural and data layer.
+- _(Even Root itself depends on Tree for authentication!)_ Root is only a frontend.
 
-## Key Features
+---
 
-- **Goal Structuring**: Build your goals from core principles, allowing you to focus on what matters most. Do not get lost reactively chasing goals hoping towards the root purpose. 
-- **Data Tracking**: Track your progress and goals and gather valuable insights into your performance. Every piece of data- node name, notes, reflections, values, goals, scheduling, parent/child relationships- is also further context for LLM to generate better for you. 
-- **Generational Tracking**: Use prestige nodes to record generational data without having to make new branches for repeating nodes.
-- **Branch Management**: Trim unneeded branches while continuing to grow high-returning ones. If it isn't serving the branches below accordingly, cut.
-- **Iterative Testing**: Generate new plans and use them using large language models (LLMs) to refine your approach. If it seems too daunting let the LLM break it down into digestable steps.
+## Core Responsibilities
 
-Whether you like broad steps or every detail layed out and tracked, the amount of nodes is up to you!
+- 🔑 **Accounts** – Centralized login and unified session management across subdomains.
+- 🗂 **Main Navigation** – Directs users to every module in the ecosystem.
+- 🌉 **Integration Layer** – Connects Tree with all other modules for smooth operation.
 
-## How It Works
+> Without Root, the rest of _Treeffiency_ cannot function.
 
-1. **Build Out Goals**: Begin by establishing your goals based from the root principle: CREATING*. Carefully choose the foundations of your tree, ensuring clarity and purpose in your actions.
-   
-3. **Track Data**: Continuously track relevant data to measure your progress. Use this information to adjust strategies and optimize your path toward success.
-   
-4. **Write Notes**: Document your thoughts, ideas, and reflections as you move forward. These notes are vital for understanding your journey and making iterative improvements.
+---
 
-5. **Prestige Nodes**: Implement prestige nodes for generational tracking. This allows you to monitor the impact of your decisions and track progress over multiple cycles or generations.
+## Dependencies
 
-6. **Trim Unneeded Branches**: As you review your goals and progress, trim out the branches (goals or methods) that are no longer serving you. Focus on optimizing and growing the ones that provide the highest returns.
+### Required
 
-7. **Test New Plans**: Experiment with new strategies and plans using the power of LLMs. This allows you to generate fresh insights, helping you test and refine your approach in a data-driven manner.
+- **Tree** → Provides the login/authentication endpoint and core data structure.
 
+### Optional Enhancements
 
+- Other branches (apps and modules) can be enabled once **Root + Tree** are active.
+
+---
+
+## Related Modules
+
+- 🌱 **Tree** – Full tree editing, hierarchical data, and API functions.
+- ✨ **Be** – A user-focused app that turns tree leaves into single-task focus points. LLM-powered. Minimal UI.
+
+---
+
+## Getting Started
+
+1. **Clone Root** (this repo) and run the React Frontend (npm run dev).
+2. **Clone and set up Tree** (required for authentication), run the server/serverhttp.js, and frontend/React Frontend (npm run dev)
+3. **Enable additional branches** depending on your use case.
+4. **Log in through Root** to unlock the full system.
