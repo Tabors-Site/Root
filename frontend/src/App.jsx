@@ -54,14 +54,14 @@ const App = () => {
   return (
     <div className="app-container">
       <WelcomeSection />
-
+      <div className="divider"></div> {/* divider */}
       <NavMenu
         username={username}
         isLoggedIn={isLoggedIn}
         onLogout={handleLogout}
       />
       {!isLoggedIn && !showLoginForm && (
-        <button onClick={() => setShowLoginForm(true)}>Login</button>
+        <button className="login-button" onClick={() => setShowLoginForm(true)}>Login</button>
       )}
     </div>
   );

@@ -8,7 +8,7 @@ const NavMenu = ({ username, isLoggedIn, onLogout }) => {
   return (
     <div className="navmenu-container">
       <h1>
-        {isLoggedIn ? `Welcome, ${username} 👋` : "Sign In For Full Access"}
+        {isLoggedIn ? `Welcome, ${username} 👋` : "Login For Full Access"}
       </h1>
 
       <p>Select a section:</p>
@@ -22,7 +22,7 @@ const NavMenu = ({ username, isLoggedIn, onLogout }) => {
         ))}
       </ul>
       {isLoggedIn && (
-        <button onClick={onLogout} style={{ marginLeft: "1rem" }}>
+        <button className="login-button" onClick={onLogout} style={{ marginLeft: "1rem" }}>
           Logout
         </button>
       )}
