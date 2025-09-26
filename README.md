@@ -17,7 +17,7 @@ It serves as the **main navigation hub** and **entry point** to all other projec
 - 🗂 **Main Navigation** – Directs users to every module in the ecosystem.
 - 🌉 **Integration Layer** – Connects Tree with all other modules for smooth operation.
 
-> Without Root, the rest of _Treeffiency_ cannot function.
+> Without Root, the rest of _tabors.site_ cannot function.
 
 ---
 
