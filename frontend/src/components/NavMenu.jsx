@@ -3,7 +3,14 @@ import React from "react";
 const NavMenu = ({ username, isLoggedIn, onLogout }) => {
   const baseDomain = import.meta.env.VITE_ROOT_DOMAIN;
   const treeDomain = import.meta.env.VITE_TREE_FRONTEND;
-  const menuItems = [{ label: "Tree", url: `${treeDomain}` }];
+  const beDomain = import.meta.env.VITE_BE_FRONTEND;
+  const wordDomain = import.meta.env.VITE_WORD_FRONTEND;
+  const menuItems = [
+    { label: "Tree", url: `${treeDomain}` },
+    { label: "Be", url: `${beDomain}` },
+    { label: "Word", url: `${wordDomain}` }
+  ];
+
 
   return (
     <div className="navmenu-container">
