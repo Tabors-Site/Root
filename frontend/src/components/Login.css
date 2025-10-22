@@ -3,12 +3,23 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 100vh;
-  background-color: #070C19;
-  position: relative;
-  overflow: hidden;
+
+  width: min(75vw, 500px);
+  height: min(75vw, 500px);
+  border-radius: 50%; /* keep it circular */
+
+  background: radial-gradient(circle at center, #000000 70%, #0a0f0a 100%);
+  box-shadow: 0 0 30px rgba(0, 255, 100, 0.4),
+    inset 0 0 40px rgba(0, 255, 100, 0.2);
   color: white;
-  width: 100vw;
+
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  overflow: hidden;
+  padding: 40px;
+  text-align: center;
 }
 
 .logo-container {
@@ -19,12 +30,12 @@
 }
 
 .logo {
-  max-width: 200px;
+  max-width: 150px;
   height: auto;
 }
 
-
 .login-container h2 {
+  margin-top: 100px;
   margin-bottom: 20px;
   color: #fff;
 }
@@ -42,4 +53,33 @@
 
 .login-container button:hover {
   background-color: #0056b3;
+}
+
+@media (max-width: 600px) {
+  .login-container {
+    position: relative;
+    width: 90%;
+    max-width: 500px;
+    height: auto;
+    border-radius: 20px;
+    top: auto;
+    left: auto;
+    right: auto;
+    bottom: auto;
+    transform: none;
+    margin: 40px auto;
+    box-shadow: 0 0 20px rgba(0, 255, 100, 0.3);
+    padding: 20px;
+    overflow: hidden;
+  }
+
+  .logo-container {
+    position: static;
+    transform: none;
+    margin-bottom: 20px;
+  }
+
+  .login-container h2 {
+    margin-top: 0;
+  }
 }

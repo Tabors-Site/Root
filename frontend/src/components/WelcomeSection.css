@@ -1,0 +1,31 @@
+.welcome-section {
+  margin-top: 25px;
+}
+.welcome-section p {
+  max-width: 600px; 
+  line-height: 1.6; 
+  margin: 10px auto; 
+  text-wrap: balance;
+}
+
+.welcome-section p {
+  color: #a8f0c0;
+  text-shadow: 0 0 4px rgba(0, 255, 100, 0.3);
+}
+
+.icon-links {
+  display: flex;
+  gap: 1.5rem; 
+  align-items: center;
+  justify-content: center;
+}
+
+.icon-links a {
+  transition: all 0.25s ease;
+  filter: drop-shadow(0 0 6px rgba(0, 255, 100, 0.4));
+}
+
+.icon-links a:hover {
+  transform: scale(1.15);
+  filter: drop-shadow(0 0 12px rgba(0, 255, 120, 0.8));
+}

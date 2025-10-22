@@ -1,4 +1,5 @@
 import React from "react";
+import "./NavMenu.css";
 
 const NavMenu = ({ username, isLoggedIn, onLogout }) => {
   const baseDomain = import.meta.env.VITE_ROOT_DOMAIN;
@@ -8,9 +9,8 @@ const NavMenu = ({ username, isLoggedIn, onLogout }) => {
   const menuItems = [
     { label: "Tree", url: `${treeDomain}` },
     { label: "Be", url: `${beDomain}` },
-    { label: "Word", url: `${wordDomain}` }
+    { label: "Word", url: `${wordDomain}` },
   ];
-
 
   return (
     <div className="navmenu-container">
@@ -29,7 +29,11 @@ const NavMenu = ({ username, isLoggedIn, onLogout }) => {
         ))}
       </ul>
       {isLoggedIn && (
-        <button className="login-button" onClick={onLogout} style={{ marginLeft: "1rem" }}>
+        <button
+          className="login-button"
+          onClick={onLogout}
+          style={{ marginLeft: "1rem" }}
+        >
           Logout
         </button>
       )}
