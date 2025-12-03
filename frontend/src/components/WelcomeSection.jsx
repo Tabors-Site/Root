@@ -33,7 +33,7 @@ const WelcomeSection = () => {
           <Github size={28} />
         </a>
         <a
-          href="https://www.youtube.com/@KingCityConnections"
+          href="https://www.youtube.com/@taborgreat"
           target="_blank"
           rel="noopener noreferrer"
           className="text-[#00ff9d] hover:text-[#66ffcc] transition-colors"
