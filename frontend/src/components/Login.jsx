@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Cookies from "js-cookie";
 import "./Login.css";
 
-const Login = ({ setIsLoggedIn, setUsername, setUserId, userId, onCancel }) => {
+const Login = ({ setUsername, setUserId, userId, onCancel }) => {
   const [isRegistering, setIsRegistering] = useState(false);
   const [username, setUsernameInput] = useState("");
   const [password, setPassword] = useState("");
@@ -11,7 +11,7 @@ const Login = ({ setIsLoggedIn, setUsername, setUserId, userId, onCancel }) => {
   const [message, setMessage] = useState("");
   const apiUrl = import.meta.env.VITE_TREE_API_URL;
 
-  // Handle login logic
+
   const handleLogin = async () => {
     try {
       const response = await fetch(`${apiUrl}/login`, {
@@ -23,14 +23,13 @@ const Login = ({ setIsLoggedIn, setUsername, setUserId, userId, onCancel }) => {
 
       const data = await response.json();
       if (response.ok) {
-        Cookies.set("token", data.token, { expires: 7, secure: false });
         Cookies.set("username", username, { expires: 7, secure: false });
         Cookies.set("userId", data.userId, { expires: 7, secure: false });
         Cookies.set("loggedIn", true, { expires: 7, secure: false });
 
         setUsername(username);
         setUserId(data.userId);
-        setIsLoggedIn(true);
+
       } else {
         setMessage(data.message || "Login failed.");
       }

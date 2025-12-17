@@ -37,16 +37,30 @@ const App = () => {
     Cookies.set("theme", newMode ? "night" : "day", { expires: 7 }); // 7 days
   };
 
-  const handleLogout = () => {
-    setIsLoggedIn(false);
-    setUsername("");
-    setUserId("");
-    setShowLoginForm(false);
-    Cookies.remove("username");
-    Cookies.remove("userId");
-    Cookies.remove("loggedIn");
-    Cookies.remove("token");
-  };
+ const handleLogout = async () => {
+  try {
+    const apiUrl = import.meta.env.VITE_TREE_API_URL;
+
+    await fetch(`${apiUrl}/logout`, {
+      method: "POST",
+      credentials: "include", 
+    });
+  } catch (err) {
+    console.error("Logout request failed:", err);
+ 
+  }
+
+  setIsLoggedIn(false);
+  setUsername("");
+  setUserId("");
+  setShowLoginForm(false);
+
+  // Clear frontend-managed cookies only
+  Cookies.remove("username");
+  Cookies.remove("userId");
+  Cookies.remove("loggedIn");
+};
+
   const hideLoginForm = () => {
     setShowLoginForm(false);
     console.log("hideLoginForm called");
