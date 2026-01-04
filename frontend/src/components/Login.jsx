@@ -11,7 +11,6 @@ const Login = ({ setUsername, setUserId, setIsLoggedIn, onCancel }) => {
 
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [registrationKey, setRegistrationKey] = useState("");
   const [message, setMessage] = useState("");
 
   const apiUrl = import.meta.env.VITE_TREE_API_URL;
@@ -57,16 +56,14 @@ const Login = ({ setUsername, setUserId, setIsLoggedIn, onCancel }) => {
           username,
           email,
           password,
-          registrationKey,
         }),
         credentials: "include",
       });
 
       const data = await response.json();
       if (response.ok) {
-        setMessage("Registration successful! You can now log in.");
+        setMessage("Success! Look for our email to complete the setup.");
         setIsRegistering(false);
-        setRegistrationKey("");
         setPassword("");
         setConfirmPassword("");
         setEmail("");
@@ -223,14 +220,6 @@ const Login = ({ setUsername, setUserId, setIsLoggedIn, onCancel }) => {
               />
             </div>
 
-            <div>
-              <input
-                type="text"
-                placeholder="Registration Key"
-                value={registrationKey}
-                onChange={(e) => setRegistrationKey(e.target.value)}
-              />
-            </div>
 
             <button type="submit">Register</button>
           </>
