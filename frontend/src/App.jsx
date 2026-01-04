@@ -11,18 +11,52 @@ const App = () => {
   const [userId, setUserId] = useState("");
   const [showLoginForm, setShowLoginForm] = useState(false);
   const [isNightMode, setIsNightMode] = useState(true);
+  useEffect(() => {
+    const checkLogin = async () => {
+      const token = Cookies.get("token");
+      if (!token) return;
+
+      try {
+        const apiUrl = import.meta.env.VITE_TREE_API_URL;
+
+        const res = await fetch(`${apiUrl}/verify-token`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          credentials: "include",
+        });
+
+        if (!res.ok) {
+          // token invalid or expired
+          return;
+        }
+
+        const data = await res.json();
+
+        // ✅ hydrate React state
+        setIsLoggedIn(true);
+        setUsername(data.username);
+        setUserId(data.userId);
+
+        // ✅ keep your existing frontend cookies in sync
+        Cookies.set("username", data.username, { expires: 7 });
+        Cookies.set("userId", data.userId, { expires: 7 });
+        Cookies.set("loggedIn", true, { expires: 7 });
+
+      } catch (err) {
+        console.error("Auth check failed:", err);
+      }
+    };
+
+    checkLogin();
+  }, []);
 
   useEffect(() => {
-    const storedUsername = Cookies.get("username");
-    const storedUserId = Cookies.get("userId");
-    const loggedIn = Cookies.get("loggedIn");
+
     const savedTheme = Cookies.get("theme");
 
-    if (loggedIn) {
-      setIsLoggedIn(true);
-      setUsername(storedUsername || "");
-      setUserId(storedUserId || "");
-    }
 
     if (savedTheme === "day") {
       setIsNightMode(false);
@@ -37,29 +71,29 @@ const App = () => {
     Cookies.set("theme", newMode ? "night" : "day", { expires: 7 }); // 7 days
   };
 
- const handleLogout = async () => {
-  try {
-    const apiUrl = import.meta.env.VITE_TREE_API_URL;
+  const handleLogout = async () => {
+    try {
+      const apiUrl = import.meta.env.VITE_TREE_API_URL;
 
-    await fetch(`${apiUrl}/logout`, {
-      method: "POST",
-      credentials: "include", 
-    });
-  } catch (err) {
-    console.error("Logout request failed:", err);
- 
-  }
+      await fetch(`${apiUrl}/logout`, {
+        method: "POST",
+        credentials: "include",
+      });
+    } catch (err) {
+      console.error("Logout request failed:", err);
 
-  setIsLoggedIn(false);
-  setUsername("");
-  setUserId("");
-  setShowLoginForm(false);
+    }
 
-  // Clear frontend-managed cookies only
-  Cookies.remove("username");
-  Cookies.remove("userId");
-  Cookies.remove("loggedIn");
-};
+    setIsLoggedIn(false);
+    setUsername("");
+    setUserId("");
+    setShowLoginForm(false);
+
+    // Clear frontend-managed cookies only
+    Cookies.remove("username");
+    Cookies.remove("userId");
+    Cookies.remove("loggedIn");
+  };
 
   const hideLoginForm = () => {
     setShowLoginForm(false);
@@ -79,9 +113,8 @@ const App = () => {
             rgba(0, 0, 0, ${isNightMode ? "0.97" : "0.8"}) 80%,
             rgba(0, 0, 0, ${isNightMode ? "1" : "0.9"}) 100%
           ),
-          url("${
-            isNightMode ? "/treeBackgroundNight.jpg" : "/treeBackground.png"
-          }")
+          url("${isNightMode ? "/treeBackgroundNight.jpg" : "/treeBackground.png"
+            }")
         `,
           backgroundSize: "cover",
           backgroundPosition: "center",
@@ -112,8 +145,7 @@ const App = () => {
             rgba(0, 0, 0, ${isNightMode ? "0.97" : "0.8"}) 80%,
             rgba(0, 0, 0, ${isNightMode ? "1" : "0.9"}) 100%
           ),
-          url("${
-            isNightMode ? "/treeBackgroundNight.jpg" : "/treeBackground.png"
+          url("${isNightMode ? "/treeBackgroundNight.jpg" : "/treeBackground.png"
           }")
         `,
         backgroundSize: "cover",
