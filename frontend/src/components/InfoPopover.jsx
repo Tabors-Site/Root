@@ -3,57 +3,58 @@ import ReactDOM from "react-dom";
 import "./InfoPopover.css";
 
 const canHover = typeof window !== "undefined" && window.matchMedia("(hover: hover)").matches;
+const NARROW_BREAKPOINT = 600;
 
 const InfoPopover = ({ children, content, title, image, visitUrl, side }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [position, setPosition] = useState({ top: 0, left: 0 });
-  const [placement, setPlacement] = useState("above");
   const triggerRef = useRef(null);
   const popoverRef = useRef(null);
   const leaveTimer = useRef(null);
+  const posRef = useRef({ top: 0, left: 0, placement: "above", narrow: false });
 
-  const calculatePosition = useCallback(() => {
+  const computeLayout = useCallback(() => {
+    const narrow = window.innerWidth < NARROW_BREAKPOINT;
+    if (narrow) {
+      posRef.current = { top: 0, left: 0, placement: "centered", narrow: true };
+      return;
+    }
     if (!triggerRef.current) return;
     const rect = triggerRef.current.getBoundingClientRect();
     const popoverWidth = 320;
     const popoverHeight = 160;
     const gap = 12;
-
-    let top, left;
+    let top, left, placement;
 
     if (side) {
-      // Position to the right or left of the trigger
       top = rect.top + rect.height / 2 - popoverHeight / 2;
       top = Math.max(10, Math.min(top, window.innerHeight - popoverHeight - 10));
-
       if (rect.right + gap + popoverWidth < window.innerWidth - 10) {
         left = rect.right + gap;
-        setPlacement("right");
+        placement = "right";
       } else {
         left = rect.left - popoverWidth - gap;
-        setPlacement("left");
+        placement = "left";
       }
     } else {
-      // Position above or below the trigger
       if (rect.top > popoverHeight + gap) {
         top = rect.top - popoverHeight - gap;
-        setPlacement("above");
+        placement = "above";
       } else {
         top = rect.bottom + gap;
-        setPlacement("below");
+        placement = "below";
       }
       left = rect.left + rect.width / 2 - popoverWidth / 2;
       left = Math.max(10, Math.min(left, window.innerWidth - popoverWidth - 10));
     }
 
-    setPosition({ top, left });
+    posRef.current = { top, left, placement, narrow: false };
   }, [side]);
 
   const open = useCallback(() => {
     clearTimeout(leaveTimer.current);
-    calculatePosition();
+    computeLayout();
     setIsOpen(true);
-  }, [calculatePosition]);
+  }, [computeLayout]);
 
   const close = useCallback(() => {
     setIsOpen(false);
@@ -67,17 +68,17 @@ const InfoPopover = ({ children, content, title, image, visitUrl, side }) => {
     clearTimeout(leaveTimer.current);
   }, []);
 
-  // Close on scroll (desktop)
+  // Close on scroll (wide screens)
   useEffect(() => {
-    if (!isOpen || !canHover) return;
+    if (!isOpen || posRef.current.narrow) return;
     const handleScroll = () => close();
     window.addEventListener("scroll", handleScroll, true);
     return () => window.removeEventListener("scroll", handleScroll, true);
   }, [isOpen, close]);
 
-  // Close on click outside (mobile)
+  // Close on click outside
   useEffect(() => {
-    if (!isOpen || canHover) return;
+    if (!isOpen) return;
     const handleOutside = (e) => {
       if (
         triggerRef.current && !triggerRef.current.contains(e.target) &&
@@ -94,27 +95,42 @@ const InfoPopover = ({ children, content, title, image, visitUrl, side }) => {
     };
   }, [isOpen, close]);
 
+  const handleMouseEnter = useCallback(() => {
+    if (window.innerWidth < NARROW_BREAKPOINT) return;
+    open();
+  }, [open]);
+
+  const handleMouseLeave = useCallback(() => {
+    if (window.innerWidth < NARROW_BREAKPOINT) return;
+    delayedClose();
+  }, [delayedClose]);
+
   const handleTriggerClick = (e) => {
-    if (!canHover) {
+    if (!canHover || window.innerWidth < NARROW_BREAKPOINT) {
       e.preventDefault();
       e.stopPropagation();
-      setIsOpen((prev) => !prev);
-      if (!isOpen) calculatePosition();
+      if (isOpen) {
+        close();
+      } else {
+        open();
+      }
     }
   };
 
+  const { top, left, placement, narrow } = posRef.current;
+
   const popoverContent = (
     <>
-      {!canHover && isOpen && <div className="info-popover-backdrop" onClick={close} />}
+      {narrow && isOpen && <div className="info-popover-backdrop" onClick={close} />}
       {isOpen && (
         <div
           ref={popoverRef}
           className={`info-popover ${placement}`}
-          style={canHover ? { top: position.top, left: position.left } : undefined}
-          onMouseEnter={canHover ? cancelClose : undefined}
-          onMouseLeave={canHover ? delayedClose : undefined}
+          style={!narrow ? { top, left } : undefined}
+          onMouseEnter={!narrow ? cancelClose : undefined}
+          onMouseLeave={!narrow ? handleMouseLeave : undefined}
         >
-          {!canHover && (
+          {narrow && (
             <button className="info-popover-close" onClick={close}>
               ✕
             </button>
@@ -137,8 +153,8 @@ const InfoPopover = ({ children, content, title, image, visitUrl, side }) => {
       <span
         ref={triggerRef}
         className="info-trigger"
-        onMouseEnter={canHover ? open : undefined}
-        onMouseLeave={canHover ? delayedClose : undefined}
+        onMouseEnter={canHover ? handleMouseEnter : undefined}
+        onMouseLeave={canHover ? handleMouseLeave : undefined}
         onClick={handleTriggerClick}
         role="button"
         tabIndex={0}

@@ -169,21 +169,15 @@
   z-index: 9998;
 }
 
-/* Mobile overrides */
-@media (hover: none) {
-  .info-trigger {
-    cursor: pointer;
-  }
+/* Centered mode for narrow screens */
+.info-popover.centered {
+  max-width: 92vw;
+  min-width: 80vw;
+  top: 50% !important;
+  left: 50% !important;
+  transform: translate(-50%, -50%) !important;
+}
 
-  .info-popover {
-    max-width: 92vw;
-    min-width: 80vw;
-    top: 50% !important;
-    left: 50% !important;
-    transform: translate(-50%, -50%) !important;
-  }
-
-  .info-popover::after {
-    display: none;
-  }
+.info-popover.centered::after {
+  display: none;
 }
