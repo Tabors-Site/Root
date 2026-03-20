@@ -7,10 +7,11 @@ const NavMenu = ({ username, isLoggedIn, onLogout }) => {
   const beDomain = import.meta.env.VITE_BE_FRONTEND;
   const wordDomain = import.meta.env.VITE_WORD_FRONTEND;
   const menuItems = [
-    { label: "Rizz", url: `https://rizz.tabors.site` },
-    { label: "Tree", url: `${treeDomain}` },
-    { label: "Be", url: `${beDomain}` },
-    { label: "Word", url: `${wordDomain}` },
+        { label: "TreeOS", url: `${treeDomain}` },
+
+    { label: "RIZZ OFF", url: `https://rizzoff.com` },
+    //{ label: "Be", url: `${beDomain}` },
+    //{ label: "Word", url: `${wordDomain}` },
   ];
 
   return (

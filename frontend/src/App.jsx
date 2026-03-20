@@ -175,7 +175,7 @@ const App = () => {
         </button>
       )}
       <footer className="footer">
-        © 2025 Tabor Holly | Portland, OR, USA |{" "}
+        © 2026 Tabor Holly | Portland, OR, USA |{" "}
         <a href="https://tabors.site">tabors.site</a>
       </footer>
     </div>
