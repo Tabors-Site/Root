@@ -1,63 +1,14 @@
 import React, { useState, useEffect } from "react";
 import Cookies from "js-cookie";
-import Login from "./components/Login.jsx";
 import NavMenu from "./components/NavMenu.jsx";
 import WelcomeSection from "./components/WelcomeSection.jsx";
 import "./App.css";
 
 const App = () => {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [username, setUsername] = useState("");
-  const [userId, setUserId] = useState("");
-  const [showLoginForm, setShowLoginForm] = useState(false);
   const [isNightMode, setIsNightMode] = useState(true);
-  useEffect(() => {
-    const checkLogin = async () => {
-      const token = Cookies.get("token");
-      if (!token) return;
-
-      try {
-        const apiUrl = import.meta.env.VITE_TREE_API_URL;
-
-        const res = await fetch(`${apiUrl}/verify-token`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-          credentials: "include",
-        });
-
-        if (!res.ok) {
-          // token invalid or expired
-          return;
-        }
-
-        const data = await res.json();
-
-        // ✅ hydrate React state
-        setIsLoggedIn(true);
-        setUsername(data.username);
-        setUserId(data.userId);
-
-        // ✅ keep your existing frontend cookies in sync
-        Cookies.set("username", data.username, { expires: 7 });
-        Cookies.set("userId", data.userId, { expires: 7 });
-        Cookies.set("loggedIn", true, { expires: 7 });
-
-      } catch (err) {
-        console.error("Auth check failed:", err);
-      }
-    };
-
-    checkLogin();
-  }, []);
 
   useEffect(() => {
-
     const savedTheme = Cookies.get("theme");
-
-
     if (savedTheme === "day") {
       setIsNightMode(false);
     } else {
@@ -68,70 +19,8 @@ const App = () => {
   const toggleTheme = () => {
     const newMode = !isNightMode;
     setIsNightMode(newMode);
-    Cookies.set("theme", newMode ? "night" : "day", { expires: 7 }); // 7 days
+    Cookies.set("theme", newMode ? "night" : "day", { expires: 7 });
   };
-
-  const handleLogout = async () => {
-    try {
-      const apiUrl = import.meta.env.VITE_TREE_API_URL;
-
-      await fetch(`${apiUrl}/logout`, {
-        method: "POST",
-        credentials: "include",
-      });
-    } catch (err) {
-      console.error("Logout request failed:", err);
-
-    }
-
-    setIsLoggedIn(false);
-    setUsername("");
-    setUserId("");
-    setShowLoginForm(false);
-
-    // Clear frontend-managed cookies only
-    Cookies.remove("username");
-    Cookies.remove("userId");
-    Cookies.remove("loggedIn");
-  };
-
-  const hideLoginForm = () => {
-    setShowLoginForm(false);
-    console.log("hideLoginForm called");
-  };
-
-  if (!isLoggedIn && showLoginForm) {
-    return (
-      <div
-        className="app-container"
-        style={{
-          backgroundImage: `
-          radial-gradient(
-            circle at center,
-            rgba(0, 255, 100, 0.05) 0%,
-            rgba(0, 0, 0, ${isNightMode ? "0.85" : "0.6"}) 60%,
-            rgba(0, 0, 0, ${isNightMode ? "0.97" : "0.8"}) 80%,
-            rgba(0, 0, 0, ${isNightMode ? "1" : "0.9"}) 100%
-          ),
-          url("${isNightMode ? "/treeBackgroundNight.jpg" : "/treeBackground.png"
-            }")
-        `,
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-          backgroundRepeat: "no-repeat",
-          minHeight: "100vh",
-          position: "relative",
-        }}
-      >
-        <Login
-          setIsLoggedIn={setIsLoggedIn}
-          setUsername={setUsername}
-          setUserId={setUserId}
-          onCancel={hideLoginForm}
-        />
-      </div>
-    );
-  }
 
   return (
     <div
@@ -164,16 +53,7 @@ const App = () => {
       </button>
       <WelcomeSection />
       <div className="divider"></div> {/* divider */}
-      <NavMenu
-        username={username}
-        isLoggedIn={isLoggedIn}
-        onLogout={handleLogout}
-      />
-      {!isLoggedIn && !showLoginForm && (
-        <button className="login-button" onClick={() => setShowLoginForm(true)}>
-          Login
-        </button>
-      )}
+      <NavMenu />
       <footer className="footer">
         © 2026 Tabor Holly | Portland, OR, USA |{" "}
         <a href="https://tabors.site">tabors.site</a>
