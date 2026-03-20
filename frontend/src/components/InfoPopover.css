@@ -1,0 +1,189 @@
+/* Trigger text - makes terms look interactive */
+.info-trigger {
+  cursor: help;
+  position: relative;
+  transition: text-shadow 0.2s ease;
+}
+
+.info-trigger:hover {
+  text-shadow: 0 0 8px rgba(0, 255, 100, 0.8), 0 0 16px rgba(0, 255, 100, 0.4);
+}
+
+/* Small info button for nav items */
+.info-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 1px solid rgba(0, 255, 100, 0.5);
+  background: rgba(0, 20, 0, 0.9);
+  color: #00ff9d;
+  font-size: 0.7rem;
+  font-weight: bold;
+  font-family: "Courier New", Courier, monospace;
+  cursor: pointer;
+  margin-left: 8px;
+  vertical-align: middle;
+  transition: all 0.2s ease;
+  box-shadow: 0 0 6px rgba(0, 255, 100, 0.3);
+  padding: 0;
+  line-height: 1;
+}
+
+.info-btn:hover {
+  background: rgba(0, 40, 0, 0.95);
+  box-shadow: 0 0 12px rgba(0, 255, 100, 0.7);
+  transform: scale(1.1);
+}
+
+/* Popover panel */
+.info-popover {
+  position: fixed;
+  z-index: 9999;
+  background: rgba(0, 12, 0, 0.95);
+  border: 1px solid rgba(0, 255, 100, 0.5);
+  border-radius: 6px;
+  padding: 14px 18px;
+  max-width: 320px;
+  color: #a8f0c0;
+  font-family: "Courier New", Courier, monospace;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  text-align: left;
+  box-shadow: 0 0 20px rgba(0, 255, 100, 0.4),
+    inset 0 0 8px rgba(0, 255, 100, 0.1);
+  animation: popoverFadeIn 0.15s ease-out;
+  pointer-events: auto;
+}
+
+.info-popover::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 6px solid transparent;
+}
+
+.info-popover.above::after {
+  top: 100%;
+  border-top-color: rgba(0, 255, 100, 0.5);
+}
+
+.info-popover.below::after {
+  bottom: 100%;
+  border-bottom-color: rgba(0, 255, 100, 0.5);
+}
+
+.info-popover.right::after {
+  right: 100%;
+  left: auto;
+  top: 50%;
+  transform: translateY(-50%);
+  border-right-color: rgba(0, 255, 100, 0.5);
+  border-top-color: transparent;
+  border-bottom-color: transparent;
+}
+
+.info-popover.left::after {
+  left: 100%;
+  top: 50%;
+  transform: translateY(-50%);
+  border-left-color: rgba(0, 255, 100, 0.5);
+  border-top-color: transparent;
+  border-bottom-color: transparent;
+}
+
+@keyframes popoverFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Popover title */
+.info-popover-title {
+  font-weight: bold;
+  color: #00ff9d;
+  margin-bottom: 6px;
+  font-size: 0.95rem;
+}
+
+/* Image inside popover */
+.info-popover-image {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1px solid rgba(0, 255, 100, 0.4);
+  float: left;
+  margin-right: 12px;
+  margin-bottom: 4px;
+}
+
+/* Close button (mobile) */
+.info-popover-close {
+  position: absolute;
+  top: 6px;
+  right: 10px;
+  background: none;
+  border: none;
+  color: #00ff9d;
+  font-size: 1.2rem;
+  cursor: pointer;
+  padding: 0;
+  line-height: 1;
+  box-shadow: none;
+}
+
+.info-popover-close:hover {
+  color: #fff;
+  transform: none;
+  box-shadow: none;
+}
+
+/* Visit link inside popover for nav items */
+.info-popover-visit {
+  display: inline-block;
+  margin-top: 8px;
+  color: #00ff9d !important;
+  font-size: 0.85rem;
+  text-decoration: underline !important;
+  text-shadow: 0 0 6px rgba(0, 255, 100, 0.7);
+}
+
+.info-popover-visit:hover {
+  color: #fff !important;
+}
+
+/* Mobile backdrop */
+.info-popover-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 9998;
+}
+
+/* Mobile overrides */
+@media (hover: none) {
+  .info-trigger {
+    cursor: pointer;
+  }
+
+  .info-popover {
+    max-width: 92vw;
+    min-width: 80vw;
+    top: 50% !important;
+    left: 50% !important;
+    transform: translate(-50%, -50%) !important;
+  }
+
+  .info-popover::after {
+    display: none;
+  }
+}

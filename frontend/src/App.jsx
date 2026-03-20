@@ -16,6 +16,14 @@ const App = () => {
     }
   }, []);
 
+  useEffect(() => {
+    const color = isNightMode ? "#000000" : "#162021";
+    document.documentElement.style.backgroundColor = color;
+    document.body.style.backgroundColor = color;
+    const meta = document.querySelector('meta[name="theme-color"]');
+    if (meta) meta.setAttribute("content", color);
+  }, [isNightMode]);
+
   const toggleTheme = () => {
     const newMode = !isNightMode;
     setIsNightMode(newMode);

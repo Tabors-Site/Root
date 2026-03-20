@@ -10,6 +10,8 @@
   box-shadow: inset 0 0 250px rgba(0, 255, 100, 0.15);
   color: #00ff9d;
   padding: 20px;
+  padding-top: calc(20px + env(safe-area-inset-top));
+  padding-bottom: calc(20px + env(safe-area-inset-bottom));
   box-sizing: border-box;
   text-align: center;
   font-family: "Courier New", Courier, monospace;
@@ -19,10 +21,15 @@
 }
 
 /* Body styling */
+html {
+  background-color: #000000;
+}
+
 body {
   background-color: #000000;
   margin: 0;
-  height: 100vh;
+  min-height: 100vh;
+  min-height: 100dvh;
   overflow-x: hidden;
 }
 
@@ -117,35 +124,6 @@ a:active {
   box-shadow: 0 0 6px rgba(0, 255, 100, 0.8);
 }
 
-.login-button {
-  position: absolute;
-  top: 20px;
-  right: 20px;
-
-  font-family: "Courier New", Courier, monospace;
-  font-size: 1.1rem;
-  padding: 10px 20px;
-  border-radius: 6px;
-  border: 1px solid rgba(0, 255, 100, 0.5);
-  background: linear-gradient(
-    135deg,
-    rgba(0, 40, 0, 0.9),
-    rgba(0, 20, 0, 0.95)
-  );
-  color: #00ff9d;
-  cursor: pointer;
-
-  box-shadow: 0 0 12px rgba(0, 255, 100, 0.7),
-    inset 0 0 8px rgba(0, 255, 100, 0.2);
-  transition: background 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
-}
-
-.login-button:hover {
-  background: linear-gradient(135deg, rgba(0, 60, 0, 1), rgba(0, 30, 0, 1));
-  transform: scale(1.05);
-  box-shadow: 0 0 20px rgba(0, 255, 120, 1),
-    inset 0 0 12px rgba(0, 255, 100, 0.5);
-}
 
 @keyframes twinkle {
   0%,
@@ -164,12 +142,12 @@ a:active {
 
 .footer {
   position: absolute;
-  bottom: 10px;
+  bottom: calc(10px + env(safe-area-inset-bottom));
   left: 0;
   width: 100%;
   text-align: center;
-  color: #9ca3af; /* tailwind's text-gray-400 */
-  font-size: 0.875rem; /* text-sm */
+  color: #9ca3af;
+  font-size: 0.875rem;
   background: transparent;
 }
 .footer a {
