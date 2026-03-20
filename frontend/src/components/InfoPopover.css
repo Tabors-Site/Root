@@ -1,6 +1,6 @@
 /* Trigger text - makes terms look interactive */
 .info-trigger {
-  cursor: help;
+  cursor: pointer;
   position: relative;
   transition: text-shadow 0.2s ease;
 }

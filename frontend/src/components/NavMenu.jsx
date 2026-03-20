@@ -9,7 +9,7 @@ const NavMenu = () => {
       label: "TreeOS",
       url: `${treeDomain}`,
       popover:
-        "A tree-based operating system interface for navigating and managing hierarchical data structures. Think of it as a file system reimagined around trees.",
+        "An Operating System to manage context that lives a layer up from traditional OS's. Built on tree structures to organize everything hierarchically.",
     },
     {
       label: "RIZZ OFF",
